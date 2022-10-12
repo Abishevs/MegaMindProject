@@ -89,4 +89,4 @@ function checkNotAuthenticated(req, res, next) {
     next()
 }
 //process.exit();
-app.listen(3004)
+app.listen(3000)
