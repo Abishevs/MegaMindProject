@@ -1,5 +1,6 @@
 const express = require("express")
 const app = express()
+const mysql = require('mysql')
 
 require("dotenv").config()
 const DB_HOST = process.env.DB_HOST
@@ -17,17 +18,12 @@ const db = mysql.createPool({
    port: DB_PORT
 })
 
-const mysql = require('mysql')
 // mysql db
-const db = mysql.createPool({
-    connectionLimit: 100,
-    host: "localhost",       //This is your localhost IP
-    user: "node_admin",         // "newuser" created in Step 1(e)
-    password: "SonyBoom2022",  // password for the new user
-    database: "userDB",      // Database name
-    port: "3306"             // port name, "3306" by default
- })
  db.getConnection( (err, connection)=> {
     if (err) throw (err)
     console.log ("DB connected successful: " + connection.threadId)
  })
+
+ const port = process.env.PORT
+app.listen(port, 
+()=> console.log(`Server Started on port ${port}...`))
