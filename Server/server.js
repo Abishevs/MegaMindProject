@@ -10,16 +10,18 @@ const flash = require('express-flash')
 const session = require('express-session')
 const methodOverride = require('method-override')
 
+// local user, saved only on session.
+const db = require('./models')
+
 
 
 const initializePassport = require('./passport-config')
 initializePassport(
     passport, 
-    email => users.find(user => user.email === email),
-    id => users.find(user => user.id === id)
+    email => db.find(user => db.email === email),
+    id => db.find(user => db.id === id)
 )
-// local user, saved only on session.
-const users = []
+
 
 // use variables
 app.set('view-engine', 'ejs')
@@ -38,7 +40,7 @@ app.use(methodOverride('_method'))
 app.use(express.static('public'));
 //render index/ home page when logged in
 app.get('/', checkAuthenticated, (req, res) =>{
-    res.render('index.ejs', { name: req.user.name })
+    res.render('index.ejs', { name: req.db.name })
 })
 //render login page
 app.get('/login', checkNotAuthenticated, (req, res) =>{
@@ -58,7 +60,7 @@ app.get('/register', checkNotAuthenticated, (req, res) =>{
 app.post('/register', checkNotAuthenticated, async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
-        users.push({
+        db.push({
             id: Date.now().toString(),
             name: req.body.name,
             email: req.body.email,
@@ -69,7 +71,7 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
     } catch {
         res.redirect('/register')
     }
-    console.log(users)
+    
 
 })
 
@@ -97,4 +99,8 @@ function checkNotAuthenticated(req, res, next) {
     next()
 }
 //process.exit();
-app.listen(3000)
+db.sequelize.sync().then(() =>{
+    app.listen(3001, () => {
+        console.log('listening on http://localhost:3001')
+    })    
+});
