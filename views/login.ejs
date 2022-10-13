@@ -1,18 +1,22 @@
 <%- include('partials/head') %>
-<h1>Login</h1>
 <% if (messages.error) {%>
     <%= messages.error%>
     <% } %>
+<div class="login-box">
 <form action="/login" method="POST">
-<div>
+<h2>Login</h2>
+<div class="user-box">
     <label for="email">Email</label>
     <input type="email" id="email" name="email" required>
 </div>
-<div>
+<div class="user-box">
     <label for="password">Password</label>
     <input type="password" id="password" name="password" required>
 </div>
+<div class="flex-box">
 <button type="submit">Login</button>
-</form>
 <a href="/register">Register</a>
+</div>
+</form>
+</div>
 <%- include('partials/footer') %>
