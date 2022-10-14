@@ -23,6 +23,8 @@ initializePassport(
 )
 
 
+//Routes
+var authRoute = require('./routes/auth')(app);
 // use variables
 app.set('view-engine', 'ejs')
 app.use(express.urlencoded({ extended: false}))
@@ -46,6 +48,7 @@ app.get('/', checkAuthenticated, (req, res) =>{
 app.get('/login', checkNotAuthenticated, (req, res) =>{
     res.render('login.ejs')
 })
+ 
 
 app.post('/login', checkNotAuthenticated, passport.authenticate('local',{
     successRedirect: '/',
