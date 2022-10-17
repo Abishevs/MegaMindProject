@@ -4,7 +4,14 @@ import db from "../config/Database.js";
 const { DataTypes } = Sequelize;
  
 const Users = db.define('users',{
-    name:{
+    id:{
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true,
+
+    },
+    username:{
         type: DataTypes.STRING,
         allowNull: false
     },
@@ -15,6 +22,10 @@ const Users = db.define('users',{
     password:{
         type: DataTypes.STRING,
         allowNull: false
+    },
+    roles:{
+        type: Sequelize.BOOLEAN,
+        allowNull: true
     },
     refresh_token:{
         type: DataTypes.TEXT,

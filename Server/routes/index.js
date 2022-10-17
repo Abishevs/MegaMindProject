@@ -1,5 +1,5 @@
 import express from "express";
-import { getUsers, Register, Login, Logout } from "../controllers/Users.js";
+import { getUsers, updateUserPwd, deleteUser, Register, Login, Logout } from "../controllers/Users.js";
 import { verifyToken } from "../middleware/VerifyToken.js";
 import { refreshToken } from "../controllers/RefreshToken.js";
 import path from "path";
@@ -10,11 +10,14 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const router = express.Router();
  
-router.get('/users', verifyToken, getUsers);
+router.get('/users' /*,verifyToken,*/, getUsers);
 router.post('/users', Register);
 router.post('/login', Login);
 router.get('/token', refreshToken);
 router.delete('/logout', Logout);
+router.patch('/change-password', updateUserPwd)
+router.delete('/delete-user', deleteUser)
+
 
 
 

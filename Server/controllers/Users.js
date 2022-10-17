@@ -1,26 +1,16 @@
 import Users from "../models/UserModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
- 
-export const getUsers = async(req, res) => {
-    try {
-        const users = await Users.findAll({
-            attributes:['id','name','email']
-        });
-        res.json(users);
-    } catch (error) {
-        console.log(error);
-    }
-}
- 
+import expressAsyncHandler from "express-async-handler";
+
 export const Register = async(req, res) => {
-    const { name, email, password, confPassword } = req.body;
-    if(password !== confPassword) return res.status(400).json({msg: "Password and Confirm Password do not match"});
+    const { username, email, password, confPassword } = req.body;
+    if(password !== confPassword) return res.status(400).json({msg: "Passwords do not match"});
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(password, salt);
     try {
         await Users.create({
-            name: name,
+            username: username,
             email: email,
             password: hashPassword
         });
@@ -29,7 +19,60 @@ export const Register = async(req, res) => {
         console.log(error);
     }
 }
+
+export const getUsers = async(req, res) => {
+    try {
+        const users = await Users.findAll({
+            attributes:['id','username','email', 'roles']
+        });
+        res.json(users);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+export const updateUserPwd = async(req, res) => {
+    const { password, newPassword, confPassword } = req.body;
+    
+    const match = await bcrypt.compare(req.body.password);
+        if(!match) return res.status(400).json({msg: "Wrong Password"});
+
+    if( password !== confPassword) return res.status(400).json({msg: "New Password and Confirm Password do not match"});
+    const salt = await bcrypt.genSalt();
+    const hashPassword = await bcrypt.hash(newPassword, salt);
+    try {
+        await Users.update({
+            password: hashPassword
+        });
+        res.json({msg: "Password change succesfull"});
+    } catch (err) {
+        res.send(err)
+    }
+}
  
+export const deleteUser = async(req, res) => {
+    const {id} =  req.body
+try {
+    
+   const result = await Users.destroy({
+        where: {
+            id
+        }
+        
+   });
+        if(result === 0) {
+            res.send({msg: 'User do not exist'})
+        } else {
+            res.send(`Deleted a user with ID: ${id}`)
+        }
+
+} catch (err) {
+   res.send(err)
+}      
+}
+
+
 export const Login = async(req, res) => {
     try {
         const user = await Users.findAll({
