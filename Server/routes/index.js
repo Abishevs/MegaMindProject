@@ -1,21 +1,27 @@
 import express from "express";
-import { getUsers, updateUserPwd, deleteUser, Register, Login, Logout } from "../controllers/Users.js";
+import { getUsers,  deleteUser, updateUser, updateUserPwd, Register, Login, Logout } from "../controllers/Users.js";
 import { verifyToken } from "../middleware/VerifyToken.js";
 import { refreshToken } from "../controllers/RefreshToken.js";
+//import { authRoutes } from "./authRoutes"
+//import  {login}  from '../controllers/authController.js'
+import {loginLimiter} from '../middleware/loginLimiter.js'
 import path from "path";
 import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+//import router_login from "./authRoutes"
 
 
 
 const router = express.Router();
  
-router.get('/users' /*,verifyToken,*/, getUsers);
+router.get('/users' ,verifyToken, getUsers);
 router.post('/users', Register);
-router.post('/login', Login);
+router.post('/auth',Login, loginLimiter)
+router.put('/auth', Login);
 router.get('/token', refreshToken);
 router.delete('/logout', Logout);
-router.patch('/change-password', updateUserPwd)
+router.put('/:username/edit', updateUser)
+router.put('/:username/edit/change-pwd', updateUserPwd)
 router.delete('/delete-user', deleteUser)
 
 

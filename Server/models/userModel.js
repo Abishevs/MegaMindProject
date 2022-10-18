@@ -23,7 +23,7 @@ const Users = db.define('users',{
         type: DataTypes.STRING,
         allowNull: false
     },
-    roles:{
+    role_admin:{
         type: Sequelize.BOOLEAN,
         allowNull: true
     },

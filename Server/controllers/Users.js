@@ -1,7 +1,8 @@
 import Users from "../models/UserModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import expressAsyncHandler from "express-async-handler";
+import { nextDay } from "date-fns";
+
 
 export const Register = async(req, res) => {
     const { username, email, password, confPassword } = req.body;
@@ -33,21 +34,67 @@ export const getUsers = async(req, res) => {
 
 
 export const updateUserPwd = async(req, res) => {
-    const { password, newPassword, confPassword } = req.body;
-    
-    const match = await bcrypt.compare(req.body.password);
-        if(!match) return res.status(400).json({msg: "Wrong Password"});
-
-    if( password !== confPassword) return res.status(400).json({msg: "New Password and Confirm Password do not match"});
+    const username = req.params.username
+    const { oldPassword, newPassword, confPassword} = req.body
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(newPassword, salt);
-    try {
-        await Users.update({
-            password: hashPassword
-        });
-        res.json({msg: "Password change succesfull"});
+    if( newPassword !== confPassword) return res.status(400).json({msg: "New Password and Confirm Password do not match"});
+    try { 
+        const user = await Users.findOne({
+            where: {username}
+        })
+        
+        
+        //if( oldPassword !== user.password) return res.status(400).json({msg: "Enter a right password"});
+        const match = await bcrypt.compare(oldPassword, user.password);
+        if(!match) return res.status(400).json({msg: "Wrong Password"});
+        user.password = hashPassword
+        await user.save();
+        return res.json(user);
+
+        
     } catch (err) {
         res.send(err)
+    }
+    
+}
+
+export const updateUser = async(req,res) =>{
+    const username = req.params.username;
+    const { name, email, role} = req.body;
+    const check_username = await Users.findOne({
+        where:{username: name}, raw: true
+    })
+    if(check_username !== null ) return res.status(409).json({msg: "username taken "})
+   
+
+    const check_email = await Users.findOne({
+        where:{email: email}, raw: true
+    })
+    if(check_email !== null ) return res.status(409).json({msg: "Email is taken "})
+   
+    
+    
+    try{
+        
+    
+        const user = await Users.findOne({
+            where: {username}
+        });
+        
+        user.username = name ? name: user.username ;
+        user.email = email ? email: user.email;
+        user.role_admin = role ? role: user.role_admin;
+        
+       
+        await user.save();
+        return res.json(user);
+        
+        
+
+    }catch(err){
+        
+        return res.status(500).json({err: "An error occured"});
     }
 }
  
