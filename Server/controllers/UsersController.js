@@ -1,25 +1,11 @@
-import Users from "../models/UserModel.js";
+import {Users, Roles, UserRoles} from "../models/UserModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-//import { nextDay } from "date-fns";
+import { nextDay } from "date-fns";
+const {JSON, parse} = "json-parse"
 
 
-export const Register = async(req, res) => {
-    const { username, email, password, confPassword } = req.body;
-    if(password !== confPassword) return res.status(400).json({msg: "Passwords do not match"});
-    const salt = await bcrypt.genSalt();
-    const hashPassword = await bcrypt.hash(password, salt);
-    try {
-        await Users.create({
-            username: username,
-            email: email,
-            password: hashPassword
-        });
-        res.json({msg: "Registration Successful"});
-    } catch (error) {
-        console.log(error);
-    }
-}
+
 
 export const getUsers = async(req, res) => {
     try {
@@ -32,7 +18,49 @@ export const getUsers = async(req, res) => {
     }
 }
 
+export const addRoles = async(req, res) => {
+    const {role} = req.body;
+    try {
+        await Roles.create(
+             {
+                roles: role
+            });
+            res.json({msg: "Addded secuflly"});
+    } catch (err) {
+        res.send(err)
+    }
+}
 
+export const findRoles = async(req, res) => {
+    const {id} = req.body
+
+    try {
+        const user = await UserRoles.findAll({ where: { id_user: id }});
+        const roles = await Roles.findAll({ where: { id: "" } });
+        
+        roles.getUser(user)
+    
+        //Roles.getUser(user);
+        res.send(user)
+        //res.send(roles)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export const addRolesToUser = async(req, res) => {
+    const {id, role_id} = req.body
+    try {
+        const user = await Users.findOne({ where: { id: id } });
+        const roles = await Roles.findOne({ where: { id: role_id } });
+        // add project and user to the join table with the custom method:
+        roles.addUser(user);
+        res.json({msg: "Added Successful"});
+    } catch (err) {
+        res.send(err)
+    }
+}
 export const updateUserPwd = async(req, res) => {
     const username = req.params.username
     const { oldPassword, newPassword, confPassword} = req.body
@@ -118,57 +146,22 @@ try {
    res.send(err)
 }      
 }
+ /*
+export async function addRoles(userId, RolesObj) {
+    // find the user record
+    const user = await Users.findOne({ where: { id: userId } });
+    // create the project
+    const roles = await Roles.create(RolesObj);
+    // set the user (project manager) foreign key
+    roles.setUser(user);
+  }
 
-
-export const Login = async(req, res) => {
-    try {
-        const user = await Users.findAll({
-            where:{
-                email: req.body.email
-            }
-        });
-        const match = await bcrypt.compare(req.body.password, user[0].password);
-        if(!match) return res.status(400).json({msg: "Wrong Password"});
-        const userId = user[0].id;
-        const name = user[0].name;
-        const email = user[0].email;
-        const accessToken = jwt.sign({userId, name, email}, process.env.ACCESS_TOKEN_SECRET,{
-            expiresIn: '15s'
-        });
-        const refreshToken = jwt.sign({userId, name, email}, process.env.REFRESH_TOKEN_SECRET,{
-            expiresIn: '1d'
-        });
-        await Users.update({refresh_token: refreshToken},{
-            where:{
-                id: userId
-            }
-        });
-        res.cookie('refreshToken', refreshToken,{
-            httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000
-        });
-        res.json({ accessToken });
-    } catch (error) {
-        res.status(404).json({msg:"Email not found"});
-    }
-}
- 
-export const Logout = async(req, res) => {
-    const refreshToken = req.cookies.refreshToken;
-    if(!refreshToken) return res.sendStatus(204);
-    const user = await Users.findAll({
-        where:{
-            refresh_token: refreshToken
-        }
-    });
-    if(!user[0]) return res.sendStatus(204);
-    const userId = user[0].id;
-    await Users.update({refresh_token: null},{
-        where:{
-            id: userId
-        }
-    });
-    res.clearCookie('refreshToken');
-    return res.sendStatus(200);
-
-}
+export async function addUserRoles(userId, RolesId) {
+    // find the user record
+    const user = await Users.findOne({ where: { id: userId } });
+    // create the project
+    const roles = await UserRoles.create(projectObj);
+    // set the user (project manager) foreign key
+    project.setUser(user);
+  }
+*/
