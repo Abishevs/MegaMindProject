@@ -9,7 +9,7 @@ const Welcome = () => {
         <section className="Welcome">
             <p>{today}</p>
             
-            <h1>Welcome, {/* user variable */}</h1>
+            <h1>Welcome, {/*user variable*/}</h1>
 
             <p><Link to="/dash/contacts">View Contacts</Link></p>
 

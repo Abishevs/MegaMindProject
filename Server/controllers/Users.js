@@ -1,7 +1,7 @@
 import Users from "../models/UserModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { nextDay } from "date-fns";
+//import { nextDay } from "date-fns";
 
 
 export const Register = async(req, res) => {

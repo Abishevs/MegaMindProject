@@ -7,6 +7,7 @@ import DashLayout from "./components/DashLayout";
 import Welcome from './features/Auth/Welcome';
 import UserList from "./features/Users/UserList";
 import ContactsList from "./features/Contacts/ContactsList";
+import NotFound from "./features/NotFound";
 
 
 //<Route path="/dashboard" element={[<Navbar/>,<Dashboard/>]}></Route>
@@ -18,6 +19,7 @@ function App() {
           <Route index element={<Public />}/>
           <Route path="login" element={<Login />}/>
           <Route path="register" element={<Register/>}/>
+          <Route path="*" element={<NotFound />}/>
 
           <Route path="dash" element={<DashLayout />}>
 
