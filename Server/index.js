@@ -27,7 +27,7 @@ app.use(cookieParser());
 //for static files
 app.use('/', express.static(path.join(__dirname, '/public')))
 
-app.use('/user', userRouter)
+app.use('/users', userRouter)
 
 app.use('/auth', authRouter)
 

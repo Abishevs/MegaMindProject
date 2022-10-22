@@ -42,7 +42,7 @@ export const Roles = db.define('roles',{
         primaryKey: true,
 
     },
-    roles:{
+    role:{
         type: DataTypes.STRING,
         allowNull: false
     }

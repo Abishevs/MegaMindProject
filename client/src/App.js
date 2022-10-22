@@ -5,7 +5,7 @@ import Layout from "./components/Layout";
 import Public from "./components/Public";
 import DashLayout from "./components/DashLayout";
 import Welcome from './features/Auth/Welcome';
-import UserList from "./features/Users/UserList";
+import UsersList from "./features/Users/UsersList";
 import ContactsList from "./features/Contacts/ContactsList";
 import NotFound from "./features/NotFound";
 
@@ -25,8 +25,8 @@ function App() {
 
             <Route index element={<Welcome />} />
 
-            <Route path="user">
-              <Route index element={<UserList />} />
+            <Route path="users">
+              <Route index element={<UsersList />} />
             </Route>
 
             <Route path="contacts">

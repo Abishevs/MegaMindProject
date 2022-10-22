@@ -10,7 +10,7 @@ const {JSON, parse} = "json-parse"
 export const getUsers = async(req, res) => {
     try {
         const users = await Users.findAll({
-            attributes:['id','username','email', 'roles']
+            attributes:['id','username','email']
         });
         res.json(users);
     } catch (error) {
@@ -35,19 +35,35 @@ export const findRoles = async(req, res) => {
     const {id} = req.body
 
     try {
-        const user = await UserRoles.findAll({ where: { id_user: id }});
-        const roles = await Roles.findAll({ where: { id: "" } });
         
-        roles.getUser(user)
+        const user = await Users.findOne({
+             where: {
+                id: id
+              
+            }, 
+            attributes: ['username', 'email', 'active'],
+            include: [{
+                model:  Roles,
+                attributes: ['roles'],
+                through: {
+                    attributes: []
+                }
+            }]
+            //attributes: ['username'],
+            //raw: true
+            
+          });
+        
+        const roles = user.roles
+        
     
         //Roles.getUser(user);
-        res.send(user)
+        res.json(roles)
         //res.send(roles)
     } catch (error) {
         console.log(error)
     }
 }
-
 
 export const addRolesToUser = async(req, res) => {
     const {id, role_id} = req.body

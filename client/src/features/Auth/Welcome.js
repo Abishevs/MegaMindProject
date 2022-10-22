@@ -13,7 +13,7 @@ const Welcome = () => {
 
             <p><Link to="/dash/contacts">View Contacts</Link></p>
 
-            <p><Link to="/dash/setings">View User Setings</Link></p>
+            <p><Link to="/dash/users">View Users</Link></p>
 
         </section>
     )
