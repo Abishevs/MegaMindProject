@@ -1,11 +1,17 @@
 import express from 'express'
-const router = express.Router()
-import {getAllUsers, createNewUser, updateUser, deleteUser} from '../controllers/usersControllers'
+const userRouter = express.Router();
+import {addRoles, addRolesToUser, findRoles } from '../controllers/UsersController.js'
+import {verifyJWT } from '../middleware/verifyJWT.js'
+import { getUsers } from '../controllers/UsersController.js'
 
-router.route('/')
-    .get(getAllUsers)
-    .post(createNewUser)
-    .patch(updateUser)
-    .delete(deleteUser)
-    
-export default router;
+//userRouter.use(verifyJWT)
+
+userRouter.route('/add')
+    .post(addRoles)
+userRouter.get('/' , getUsers)
+userRouter.route('/assignrole').post(addRolesToUser)
+userRouter.route('/fetch').post(findRoles)
+
+
+
+export default userRouter;
