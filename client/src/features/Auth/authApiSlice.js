@@ -12,14 +12,18 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }), 
         sendLogout: builder.mutation({
             query: () => ({
-                url: '/auth/logout',
+                url: '/logout',
                 method: 'POST',
             }),
             async onQueryStarted(arg, { dispatch, queryFulfilled}) {
                 try {
+                    
                     await queryFulfilled
                     dispatch(logOut())
-                    dispatch(apiSlice.util.resetApiState())
+                    setTimeout(() => {
+                        dispatch(apiSlice.util.resetApiState())
+                    }, 1000)
+                    
                 } catch (err) {
                     console.log(err)
                 }

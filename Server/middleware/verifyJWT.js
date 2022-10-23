@@ -12,10 +12,10 @@ export const verifyToken1 = (req, res, next) => {
 }
 
 export const verifyJWT = (req, res, next) => {
-    const authHeader = req.headers['authorization'] || req.headers['authorization']
+    const authHeader = req.headers['authorization'] || req.headers['Authorization']
     const token = authHeader.split(' ')[1]
 
-    if (token == null || !authHeader?.startsWith('Bearer ')) {
+    if (!authHeader?.startsWith('Bearer ')) {
         return res.status(401).json({ msg: 'Unauthorized'})
     }
 
@@ -26,9 +26,9 @@ export const verifyJWT = (req, res, next) => {
         process.env.ACCESS_TOKEN_SECRET,
         (err, decoded) => {
             if(err) return res.status(403).json({ msg: 'Forbidden'})
-            //req.username = decoded.username
-            req.user = decoded.UserInfo.username;
-            req.roles = decoded.UserInfo.roles;
+            req.username = decoded.username
+            //req.user = decoded.UserInfo.username;
+           // req.roles = decoded.UserInfo.roles;
             next();
 
         }

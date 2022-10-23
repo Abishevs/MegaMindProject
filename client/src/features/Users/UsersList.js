@@ -9,7 +9,8 @@ const UsersList = () => {
     isSuccess,
     isError,
     error
-  } = useGetUsersQuery()
+  } = useGetUsersQuery(
+  )
 
   let content
 
@@ -20,11 +21,11 @@ const UsersList = () => {
   }
 
   if (isSuccess) {
-    const { ids } = users
+    const { id } = users
 
-    const tableContent = ids?.lenght
-      ? ids.map(userId => <User key={userId} userId={userId} />)
-      : null
+    const tableContent = id?.lenght
+      ? id.map(userId => <User key={userId} userId={userId} />)
+      : false
 
     content = (
       <table className="table table--users">
@@ -40,6 +41,7 @@ const UsersList = () => {
         </tbody>
       </table>
     )
+    return content
   }
 }
 

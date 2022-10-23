@@ -1,17 +1,25 @@
 import {Users, Roles, UserRoles} from "../models/UserModel.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { nextDay } from "date-fns";
-const {JSON, parse} = "json-parse"
 
 
 
 
 export const getUsers = async(req, res) => {
     try {
-        const users = await Users.findAll({
-            attributes:['id','username','email']
-        });
+       
+        const users = await Users.findAll({ 
+
+            attributes: ['id','username','email', 'active'],
+            include: [{
+                model: Roles,
+                attributes: ['role'],
+                through: {
+                    attributes: []
+                }
+            }],
+            //nest: true,
+            raw: true
+        })
         res.json(users);
     } catch (error) {
         console.log(error);

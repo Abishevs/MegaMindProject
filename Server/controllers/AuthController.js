@@ -37,15 +37,13 @@ export const login = async (req, res) => {
         const match = await bcrypt.compare(req.body.password, user[0].password);
         if (!match) return res.status(401).json({ msg: "The password you’ve entered is incorrect" });
         const userId = user[0].id;
-        const roles = JSON.parse(JSON.stringify(await Users.findOne({
-            plain: true,
-            raw: false,
-            nest: true,
+        const roles = await Users.findOne({ //JSON.parse(JSON.stringify(
+
             where: {
                 id: userId
 
             },
-            attributes: [],
+            attributes: ['username'],
             include: [{
                 model: Roles,
                 attributes: ['role'],
@@ -53,24 +51,31 @@ export const login = async (req, res) => {
                     attributes: []
                 }
             }],
+            nest: true,
+            raw: true
         })
-        ))
+
+
+
+        const all_roles = roles.roles.role
         const name = user[0].username;
         const email = user[0].email;
+
 
 
         const accessToken = jwt.sign(
             {
                 "UserInfo": {
                     "username": name,
-                    "roles": roles
+                    "roles": all_roles
                 }
             }, process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '10s' }
+            { expiresIn: '30s' }
         );
+
         const refreshToken = jwt.sign(
             { "username": name }, process.env.REFRESH_TOKEN_SECRET, {
-            expiresIn: '20s'
+            expiresIn: '30s'
         });
         res.cookie('jwt', refreshToken, {
             httpOnly: true, //accesible only by web
@@ -129,27 +134,32 @@ export const refresh = async (req, res) => {
 
                 if (!foundUser) return res.status(401).json({ msg: 'Unauthorized' })
                 const userId = foundUser[0].id;
-                const u_roles = await Users.findOne({
+                const roles = await Users.findOne({ 
+
                     where: {
                         id: userId
 
                     },
-                    attributes: ['username', 'email', 'active'],
+                    attributes: ['username'],
                     include: [{
                         model: Roles,
-                        attributes: ['roles'],
+                        attributes: ['role'],
                         through: {
                             attributes: []
                         }
-                    }]
-                });
+                    }],
+                    nest: true,
+                    raw: true
+                })
 
-                const user_roles = u_roles.roles
+
+
+                const all_roles = roles.roles.role
                 const accessToken = jwt.sign(
                     {
                         "UserInfo": {
                             "username": foundUser[0].username,
-                            "roles": user_roles
+                            "roles": all_roles
                         }
                     },
                     process.env.ACCESS_TOKEN_SECRET,
