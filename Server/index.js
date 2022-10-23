@@ -32,7 +32,7 @@ app.use('/users', userRouter)
 app.use('/auth', authRouter)
 
 //should always be at the buttom includes 404 routes.
-app.use(router);
+//app.use(router);
 app.use(errorRouter)
 app.use(errorHandler)
  

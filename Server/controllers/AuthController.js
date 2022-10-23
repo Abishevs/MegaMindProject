@@ -52,7 +52,8 @@ export const login = async (req, res) => {
                 }
             }],
             nest: true,
-            raw: true
+            raw: true,
+            
         })
 
 
@@ -60,7 +61,7 @@ export const login = async (req, res) => {
         const all_roles = roles.roles.role
         const name = user[0].username;
         const email = user[0].email;
-
+        console.log(all_roles)
 
 
         const accessToken = jwt.sign(
@@ -70,12 +71,12 @@ export const login = async (req, res) => {
                     "roles": all_roles
                 }
             }, process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '30s' }
+            { expiresIn: '15s' }
         );
 
         const refreshToken = jwt.sign(
             { "username": name }, process.env.REFRESH_TOKEN_SECRET, {
-            expiresIn: '30s'
+            expiresIn: '2m'
         });
         res.cookie('jwt', refreshToken, {
             httpOnly: true, //accesible only by web
@@ -119,6 +120,7 @@ export const refreshv1 = async (req, res) => {
 
 export const refresh = async (req, res) => {
     const cookies = req.cookies
+
     if (!cookies?.jwt) return res.status(401).json({ msg: 'Unauthorized' })
 
     const refreshToken = cookies.jwt
@@ -130,10 +132,10 @@ export const refresh = async (req, res) => {
             try {
                 if (err) return res.status(403).json({ msg: 'Forbidden' })
 
-                const foundUser = await Users.findAll({ username: decoded.username })
+                const foundUser = await Users.findOne({where:{ username: decoded.username }})
 
                 if (!foundUser) return res.status(401).json({ msg: 'Unauthorized' })
-                const userId = foundUser[0].id;
+                const userId = foundUser.id;
                 const roles = await Users.findOne({ 
 
                     where: {
@@ -151,19 +153,19 @@ export const refresh = async (req, res) => {
                     nest: true,
                     raw: true
                 })
-
+                //console.log(foundUser)
 
 
                 const all_roles = roles.roles.role
                 const accessToken = jwt.sign(
                     {
                         "UserInfo": {
-                            "username": foundUser[0].username,
+                            "username": foundUser.username,
                             "roles": all_roles
                         }
                     },
                     process.env.ACCESS_TOKEN_SECRET,
-                    { expiresIn: '10s' }
+                    { expiresIn: '15s' }
                 )
                 res.json({ accessToken })
             } catch (err) {

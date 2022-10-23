@@ -21,11 +21,10 @@ const UsersList = () => {
   }
 
   if (isSuccess) {
-    const { id } = users
+    const { ids } = users
 
-    const tableContent = id?.lenght
-      ? id.map(userId => <User key={userId} userId={userId} />)
-      : false
+    const tableContent = ids?.length && ids.map(userId => <User key={userId} userId={userId} />)
+
 
     content = (
       <table className="table table--users">

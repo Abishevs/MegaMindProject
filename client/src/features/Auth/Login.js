@@ -1,11 +1,11 @@
-import React, { useRef, useState, useEffect } from 'react'
+import  { useRef, useState, useEffect } from 'react'
 //import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux'
 import { setCredentials } from './authSlice'
 import { useLoginMutation } from './authApiSlice'
-
+import usePersist from '../../hooks/usePersist'
 
 const Login = () => {
     const userRef = useRef()
@@ -14,6 +14,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     //const [msg, setMsg] = useState('');
     const [errMsg, setErrMsg] = useState('')
+    const [persist, setPersist] = usePersist()
 
     const navigate = useNavigate();
     const dispatch = useDispatch()
@@ -53,6 +54,7 @@ const Login = () => {
 
     const handleUserInput = (e) => setUsername(e.target.value)
     const handlePwdInput = (e) => setPassword(e.target.value)
+    const handleToggle = () => setPersist(prev => !prev)
 
     const errClass = errMsg ? "errmsg" : "offscreen"
 
@@ -92,6 +94,16 @@ const Login = () => {
                     <button>Login</button>
                     <p className="btn-msg">or</p>
                     <Link to="/register">Register</Link>
+                    <label htmlFor="persist" className="form__persist">
+                        <input
+                            type="checkbox"
+                            className="form__checkbox"
+                            id="persist"
+                            onChange={handleToggle}
+                            checked={persist}
+                        />
+                        Trust This Device
+                    </label>
                 </div>
             </form>
         </div>

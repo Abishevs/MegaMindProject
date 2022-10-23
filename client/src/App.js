@@ -9,35 +9,41 @@ import UsersList from "./features/Users/UsersList";
 import ContactsList from "./features/Contacts/ContactsList";
 import NotFound from "./features/NotFound";
 import Prefetch from "./features/Auth/Prefetch";
-
-
+import { ROLES } from './config/roles'
+import PersistLogin from './features/Auth/PersistLogin'
+import RequireAuth from './features/Auth/RequireAuth'
 //<Route path="/dashboard" element={[<Navbar/>,<Dashboard/>]}></Route>
 
 function App() {
   return (
     <Routes>
       <Route exact path="/" element={<Layout />}>
+        {/* Public route */}
         <Route index element={<Public />} />
         <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
 
-        <Route element={<Prefetch />}>
-          <Route path="dash" element={<DashLayout />}>
+        {/* Protected routes */}
+        <Route element={<PersistLogin />}>
+          <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
+            <Route element={<Prefetch />}>
+              <Route path="dash" element={<DashLayout />}>
 
-            <Route index element={<Welcome />} />
+                <Route index element={<Welcome />} />
 
-            <Route path="users">
-              <Route index element={<UsersList />} />
+                <Route path="users">
+                  <Route index element={<UsersList />} />
+                  <Route path="register" element={<Register />} />
+                </Route>
+
+                <Route path="contacts">
+                  <Route index element={<ContactsList />} />
+                </Route>
+
+              </Route> {/* End dash */}
             </Route>
-
-            <Route path="contacts">
-              <Route index element={<ContactsList />} />
-            </Route>
-
           </Route>
-        </Route>
-
+        </Route> {/*End protected Routes */}
       </Route>
     </Routes>
   );

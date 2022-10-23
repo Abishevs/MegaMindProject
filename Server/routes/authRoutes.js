@@ -14,7 +14,7 @@ authRouter.route('/')
     .get(getUsers) //verifyJWT)
 */
 authRouter.route('/refresh')
-    .get(refresh,) //verifyJWT)
+    .get(refresh) 
 
 authRouter.route('/logout')
     .post(logout)
