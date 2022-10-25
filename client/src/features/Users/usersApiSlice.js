@@ -19,7 +19,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             }),
             transformResponse: responseData => {
                 const loadedUsers = responseData.map(user => {
-                    user.id = user.id
+                    //user.id = user.id
                     return user
                 });
                 return usersAdapter.setAll(initialState, loadedUsers)

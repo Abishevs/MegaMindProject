@@ -1,5 +1,4 @@
 import  { useRef, useState, useEffect } from 'react'
-//import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux'
@@ -12,18 +11,22 @@ const Login = () => {
     const errRef = useRef()
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    //const [msg, setMsg] = useState('');
     const [errMsg, setErrMsg] = useState('')
     const [persist, setPersist] = usePersist()
 
     const navigate = useNavigate();
     const dispatch = useDispatch()
 
+    
+
+    
+
     const [login, {isLoading}] = useLoginMutation()
 
     useEffect(() => {
         userRef.current.focus()
     }, [])
+    
 
     useEffect(() => {
         setErrMsg('')
@@ -51,7 +54,7 @@ const Login = () => {
             errRef.current.focus()
         }
     }
-
+    
     const handleUserInput = (e) => setUsername(e.target.value)
     const handlePwdInput = (e) => setPassword(e.target.value)
     const handleToggle = () => setPersist(prev => !prev)
@@ -108,6 +111,7 @@ const Login = () => {
             </form>
         </div>
     ) 
+
     return content
 }
 

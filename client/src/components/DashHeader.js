@@ -43,11 +43,11 @@ const DashHeader = () => {
         if (!USERS_REGEX.test(pathname) && pathname.includes('/dash')) {
             userButton = (
                 <button
-                    className="icon-button"
+                    className="dash-header-nav-buttons"
                     title="Users"
                     onClick={onUsersClicked}
                 >
-                    
+                    Users
                 </button>
             )
         }
@@ -55,23 +55,24 @@ const DashHeader = () => {
 
     const logoutButton = (
         <button 
-            className=""
+            className="dash-header-nav-buttons"
             title="Logout"
             onClick={onLogoutClicked}
         >
-            <h2>Logout</h2>
+            Logout
         </button>
     )
     
    
     const content = (
         
-        <header>
+        <header className="dash-header">
             <div className={`dash-header-container ${dashClass}`}> 
                 <Link to="/dash" >
                     <h1 className="dash-header__title">Frap CRM</h1>
                 </Link>
-                <nav>
+                <nav className="dash_header__nav">
+                    {userButton}
                     {logoutButton}
                 </nav>
                 
