@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom'
 
 
 const Prefetch = () => {
-  useEffect(() => {
+  /*useEffect(() => {
     console.log('Subscirping')
     const users = store.dispatch(usersApiSlice.endpoints.getUsers.initiate())
 
@@ -13,7 +13,7 @@ const Prefetch = () => {
         console.log('unsubing')
         users.unsubscribe()
     }
-  }, [])
+  }, []) */
     return <Outlet />
 }
 

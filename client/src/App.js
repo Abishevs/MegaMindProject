@@ -14,6 +14,7 @@ import PersistLogin from './features/Auth/PersistLogin'
 import RequireAuth from './features/Auth/RequireAuth'
 //<Route path="/dashboard" element={[<Navbar/>,<Dashboard/>]}></Route>
 
+
 function App() {
   return (
     <Routes>
@@ -23,19 +24,19 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
 
-        {/* Protected routes */}
+        {/* Protected routes customers */}
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
             <Route element={<Prefetch />}>
               <Route path="dash" element={<DashLayout />}>
 
                 <Route index element={<Welcome />} />
-
+                <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.moderator]} />}> {/*ADMIN ONLY ROUTE*/}
                 <Route path="users">
                   <Route index element={<UsersList />} />
                   <Route path="register" element={<Register />} />
                 </Route>
-
+                </Route> {/*END ADMIN ONLY ROUTE*/}
                 <Route path="contacts">
                   <Route index element={<ContactsList />} />
                 </Route>
