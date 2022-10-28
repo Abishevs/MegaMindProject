@@ -32,7 +32,7 @@ export const login = async (req, res) => {
         //console.log(user)
         if (!username || !password) return res.status(400).json({ msg: 'All field are required' })
         if (!user || !user[0].active) {
-            return res.status(400).json({ msg: 'Unauthorized' })
+            return res.status(401).json({ msg: 'Unauthorized' })
         }
         const match = await bcrypt.compare(req.body.password, user[0].password);
         if (!match) return res.status(401).json({ msg: "The password you’ve entered is incorrect" });
@@ -71,12 +71,12 @@ export const login = async (req, res) => {
                     "roles": all_roles
                 }
             }, process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '15s' }
+            { expiresIn: '15m' }
         );
 
         const refreshToken = jwt.sign(
             { "username": name }, process.env.REFRESH_TOKEN_SECRET, {
-            expiresIn: '2m'
+            expiresIn: '7d'
         });
         res.cookie('jwt', refreshToken, {
             httpOnly: true, //accesible only by web
@@ -165,7 +165,7 @@ export const refresh = async (req, res) => {
                         }
                     },
                     process.env.ACCESS_TOKEN_SECRET,
-                    { expiresIn: '15s' }
+                    { expiresIn: '15m' }
                 )
                 res.json({ accessToken })
             } catch (err) {

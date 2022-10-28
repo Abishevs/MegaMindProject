@@ -1,0 +1,39 @@
+.dash-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: 0 0.5em;
+  }
+  
+  .dash-header-container  {
+    display: flex;
+    flex-direction: row;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: baseline;
+  
+  }
+  
+ /* .dash-header__container--small {
+    max-width: 800px;
+  } */
+  
+  .dash-header__title {
+    
+    color: var(--contrast-accent);
+  }
+  
+  .dash-header__nav {
+    
+    gap: 2em;
+  }
+  
+  .dash-header-nav-buttons {
+    cursor: pointer;
+    font-size: 18px;
+    background-color: transparent;
+    border: none;
+    color: var(--contrast-accent);
+    
+  }
+  

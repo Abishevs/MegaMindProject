@@ -70,9 +70,9 @@ export const UserRoles = db.define('user_roles',{
     Roles.belongsToMany(Users, { through: UserRoles, foreignKey: 'id_roles'})
 })();
 
-
 (async () => {
     
     await db.sync();
 })();
- 
+
+

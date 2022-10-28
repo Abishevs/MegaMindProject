@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 import Login from "./features/Auth/Login";
 import Register from "./features/Auth/Register";
-import Layout from "./components/Layout";
-import Public from "./components/Public";
-import DashLayout from "./components/DashLayout";
+import Layout from "./components/Private/Layout";
+import Public from "./components/Public/Public.js";
+import DashLayout from "./components/Private/DashLayout";
 import Welcome from './features/Auth/Welcome';
 import UsersList from "./features/Users/UsersList";
 import ContactsList from "./features/Contacts/ContactsList";
@@ -12,7 +12,7 @@ import Prefetch from "./features/Auth/Prefetch";
 import { ROLES } from './config/roles'
 import PersistLogin from './features/Auth/PersistLogin'
 import RequireAuth from './features/Auth/RequireAuth'
-//<Route path="/dashboard" element={[<Navbar/>,<Dashboard/>]}></Route>
+import UserById from './features/Users/UserById'
 
 
 function App() {
@@ -31,9 +31,11 @@ function App() {
               <Route path="dash" element={<DashLayout />}>
 
                 <Route index element={<Welcome />} />
-                <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.moderator]} />}> {/*ADMIN ONLY ROUTE*/}
+                {/*ADMIN ONLY ROUTE*/}
+                <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.moderator]} />}> 
                 <Route path="users">
                   <Route index element={<UsersList />} />
+                  <Route path=":id" element={<UserById />} />
                   <Route path="register" element={<Register />} />
                 </Route>
                 </Route> {/*END ADMIN ONLY ROUTE*/}

@@ -1,30 +1,38 @@
 import  { useRef, useState, useEffect } from 'react'
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link,  } from 'react-router-dom';
+import './Login.css'
 
 import { useDispatch } from 'react-redux'
 import { setCredentials } from './authSlice'
 import { useLoginMutation } from './authApiSlice'
 import usePersist from '../../hooks/usePersist'
+//import useAuth from "../../hooks/useAuth"
 
 const Login = () => {
+    
     const userRef = useRef()
     const errRef = useRef()
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('')
     const [persist, setPersist] = usePersist()
+    //const { NotAuthenticated } = useAuth()
+    
 
     const navigate = useNavigate();
     const dispatch = useDispatch()
 
     
-
+    
     
 
     const [login, {isLoading}] = useLoginMutation()
 
     useEffect(() => {
+        
         userRef.current.focus()
+        
+        
     }, [])
     
 
@@ -62,6 +70,7 @@ const Login = () => {
     const errClass = errMsg ? "errmsg" : "offscreen"
 
     if (isLoading) return <p>Loading...</p>
+    
 
     const content = (
         <div className="login-box">
@@ -76,7 +85,7 @@ const Login = () => {
                         placeholder="Username" 
                         value={username} 
                         onChange={handleUserInput}
-                        required
+                        //required
                         ref={userRef}
                         autoComplete="off"
                     />
@@ -90,7 +99,7 @@ const Login = () => {
                         placeholder="******" 
                         value={password} 
                         onChange={handlePwdInput}
-                        required 
+                        //required 
                     />
                 </div>
                 <div className="button-center">
@@ -111,7 +120,7 @@ const Login = () => {
             </form>
         </div>
     ) 
-
+    //if (NotAuthenticated === true)
     return content
 }
 

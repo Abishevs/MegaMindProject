@@ -5,6 +5,7 @@ const RequireAuth = ({ allowedRoles }) => {
     const location = useLocation()
     const { roles } = useAuth()
     
+
    
     const content = (
          allowedRoles.includes(roles))

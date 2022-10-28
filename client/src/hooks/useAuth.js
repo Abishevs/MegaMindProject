@@ -15,7 +15,7 @@ const useAuth = () => {
         const decoded = jwtDecode(token)
         const { username, roles } = decoded.UserInfo
 
-        NotAuthenticated = false
+        if (decoded.UserInfo) NotAuthenticated = false
         
         isMod = roles.includes('moderator')
         isAdmin = roles.includes('admin')

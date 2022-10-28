@@ -1,9 +1,10 @@
 :root {
-  --main-color: #02353c;
+  --main-color: #02353c; 
   --accent-main: #a7Fd02;
   --opposite-main: #3C0902;
   --contrast-accent: rgb(255, 255, 255);
-  --contrast-black: black; 
+  --contrast-black: black;
+  --ERROR: firebrick;
 
 }
 
@@ -11,7 +12,16 @@ html {
   height: 100%;
 }
 
+#root {
+  /* React root div */
+  min-height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+}
 
+a {
+  text-decoration: none;
+}
 
 body {
   margin: 0;
@@ -20,164 +30,39 @@ body {
   background: linear-gradient(#141e30, #243b55);
 }
 
-.login-box {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 400px;
-  padding: 40px;
-  transform: translate(-50%, -50%);
-  background: var(--main-color);
-  box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
-  border-radius: 10px;
+/* ERRORs */
+
+.errmsg {
+  display: inline-block;
+  background-color: none;
+  color: var(--ERROR);
+  padding: 0.25em;
+  margin-bottom: 0.5em;
 }
 
-.login-box h1 {
-  margin: 0 0 60px;
-  padding: 0;
-  color: #fff;
-  text-align: center;
+.errmsg a:any-link {
+  color: var(--ERROR);
+  text-decoration: underline;
 }
 
-.login-box .user-box {
-  position: relative;
-}
-
-.login-box .user-box input {
-  width: 100%;
-  padding: 5px;
-  font-size: 16px;
-  color: #fff;
-  margin-bottom: 30px;
-  border: none;
-  border-bottom: 1px solid #fff;
-  outline: none;
-  background: transparent;
-}
-
-.login-box .user-box label {
-  position: absolute;
-  top: -20px;
-  font-size: 16px;
-  color: #fff;
-  pointer-events: none;
-  transition: .5s;
-}
-
-
-.login-box .user-box input:focus~label,
-.login-box .user-box input:valid~label {
-  top: -20px;
-  left: 0;
-  color: #03e9f4;
-  font-size: 12px;
-}
-
-.login-box form a {
-  background-color: #fff;
-  padding: 10px 20px;
-  color: #03e9f4;
-  font-size: 16px;
-  text-decoration: none;
-  text-transform: uppercase;
-  overflow: hidden;
-  transition: .5s;
-  margin-top: 20px;
-  letter-spacing: 4px
-}
-
-.login-box form button {
-  cursor: pointer;
-  border: none;
-  background-color: azure;
-  padding: 10px 20px;
-  color: #03e9f4;
-  font-size: 16px;
-  text-decoration: none;
-  text-transform: uppercase;
-  overflow: hidden;
-  transition: .5s;
-  letter-spacing: 4px;
-}
-
-.login-box button:hover {
-  background: #03e9f4;
-  color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 0 5px #03e9f4,
-    0 0 25px #03e9f4,
-    0 0 50px #03e9f4,
-
-}
-
-form .button-sb {
-  width: 100%;
-  display: flex;
-  display: column;
-  justify-content: space-between;
-
-}
-
-div.button-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn-msg {
-
-  color: #fff;
-}
-
-
-.area {
-  float: left;
-  background: #e2e2e2;
-  width: 100%;
-  height: 100%;
-}
-
-
-
-.dash-header {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  padding: 0 0.5em;
-}
-
-.dash-header-container  {
-  display: flex;
-  flex-direction: row;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: baseline;
-
-}
-
-.dash-header__container--small {
-  max-width: 800px;
-}
-
-.dash-header__title {
-  
-  color: var(--contrast-accent);
-}
-
-.dash-header__nav {
-  
-  gap: 2em;
-}
-
-.dash-header-nav-buttons {
-  cursor: pointer;
-  font-size: 18px;
+.icon-button {
+  width: 48px;
+  height: 48px;
+  font-size: 2.5rem;
   background-color: transparent;
   border: none;
-  color: var(--contrast-accent);
-  
+  color: var(--accent-main);
+  display: grid;
+  place-content: center;
+}
+
+.icon-button:hover,
+.icon-button:focus-visible {
+  transform: scale(1.2);
+}
+
+.icon-button[disabled] {
+  visibility: hidden;
 }
 
 .dash-container {

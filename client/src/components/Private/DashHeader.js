@@ -2,9 +2,10 @@ import { Link, useNavigate, useLocation} from 'react-router-dom'
 //import axios from 'axios'
 import { useEffect } from 'react'
 //import Navbar from './Navbar' <Navbar />
-import useAuth from '../hooks/useAuth'
+import useAuth from '../../hooks/useAuth'
+import './DashHeader.css'
 
-import { useSendLogoutMutation } from '../features/Auth/authApiSlice'
+import { useSendLogoutMutation } from '../../features/Auth/authApiSlice'
 
 const DASH_REGEX = /^\/dash(\/)?$/
 const USERS_REGEX = /^\/dash\/users(\/)?$/

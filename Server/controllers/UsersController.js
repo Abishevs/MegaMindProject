@@ -17,9 +17,10 @@ export const getUsers = async(req, res) => {
                     attributes: []
                 }
             }],
-            //nest: true,
+            nest: true,
             raw: true
         })
+        console.log(users)
         res.json(users);
     } catch (error) {
         console.log(error);
@@ -86,23 +87,23 @@ export const addRolesToUser = async(req, res) => {
     }
 }
 export const updateUserPwd = async(req, res) => {
-    const username = req.params.username
+    const id = req.params.id
     const { oldPassword, newPassword, confPassword} = req.body
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(newPassword, salt);
     if( newPassword !== confPassword) return res.status(400).json({msg: "New Password and Confirm Password do not match"});
     try { 
         const user = await Users.findOne({
-            where: {username}
+            where: {id: id}
         })
         
         
-        //if( oldPassword !== user.password) return res.status(400).json({msg: "Enter a right password"});
+        
         const match = await bcrypt.compare(oldPassword, user.password);
         if(!match) return res.status(400).json({msg: "Wrong Password"});
         user.password = hashPassword
         await user.save();
-        return res.json(user);
+        return res.status(200).json({msg: "Updated sucessfully"});
 
         
     } catch (err) {
