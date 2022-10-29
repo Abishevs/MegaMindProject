@@ -1,0 +1,10 @@
+
+
+.Welcome {
+    background-color: #fff;
+    grid-area: 2/2/2/2;
+    text-transform: capitalize;
+    margin-bottom: 1em;
+    padding-left: 1em;
+
+}

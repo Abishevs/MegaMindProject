@@ -1,9 +1,7 @@
 .dash-footer {
     font-size: 1rem;
-    position: sticky;
-    bottom: 0;
-    z-index: 1;
-    background-color: var(--BGCOLOR);
+    grid-area: 3/2/4/4;
+    background-color: var(--main-color);
     padding: 0.5em;
     border-top: 1px solid var(--BORDER-COLOR);
     display: flex;

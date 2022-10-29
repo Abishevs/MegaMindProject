@@ -5,6 +5,8 @@ import useAuth from '../../hooks/useAuth'
 import './DashFooter.css'
 
 const DashFooter = () => {
+    const date = new Date()
+    const today = new Intl.DateTimeFormat('sv-eu', { timeStyle: 'long'}).format(date)
 
     const navigate = useNavigate()
     const { pathname } = useLocation()
@@ -28,6 +30,7 @@ const DashFooter = () => {
             {goHomeButton}
             <p> current user: {username} </p>
             <p> Status: {status} </p>
+            <p>time: {today}</p>
         </footer>
     )
   return content

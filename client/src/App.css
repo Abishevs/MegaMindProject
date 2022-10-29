@@ -5,6 +5,7 @@
   --contrast-accent: rgb(255, 255, 255);
   --contrast-black: black;
   --ERROR: firebrick;
+  --INACTIVE: lightgray;
 
 }
 
@@ -15,8 +16,8 @@ html {
 #root {
   /* React root div */
   min-height: 100vh;
-  display: flex;
-  flex-flow: column nowrap;
+ 
+  
 }
 
 a {
@@ -27,7 +28,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background: linear-gradient(#141e30, #243b55);
+  background: white;
 }
 
 /* ERRORs */
@@ -54,6 +55,7 @@ body {
   color: var(--accent-main);
   display: grid;
   place-content: center;
+  cursor: pointer;
 }
 
 .icon-button:hover,
@@ -66,6 +68,9 @@ body {
 }
 
 .dash-container {
-  padding: 0.75em 0.5em 0.5em;
-  flex-grow: 1;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: 100px auto 70px;
+  height: 100vh;
+  
 }
