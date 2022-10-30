@@ -10,6 +10,10 @@ export const Users = db.define('users',{
         primaryKey: true,
 
     },
+    fullname:{
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     username:{
         type: DataTypes.STRING,
         allowNull: false
@@ -25,13 +29,8 @@ export const Users = db.define('users',{
     active:{
         type: DataTypes.BOOLEAN,
         defaultValue: true
-    },
-
-    refresh_token:{
-        type: DataTypes.TEXT,
-        
-    }
-},{
+    }   
+},{ 
     freezeTableName: true
 });
 

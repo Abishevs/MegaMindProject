@@ -61,12 +61,14 @@ export const login = async (req, res) => {
         const all_roles = roles.roles.role
         const name = user[0].username;
         const email = user[0].email;
+        const fullname = user[0].fullname;
         console.log(all_roles)
 
 
         const accessToken = jwt.sign(
             {
                 "UserInfo": {
+                    "fullname": fullname,
                     "username": name,
                     "roles": all_roles
                 }
@@ -160,6 +162,7 @@ export const refresh = async (req, res) => {
                 const accessToken = jwt.sign(
                     {
                         "UserInfo": {
+                            "fullname": foundUser.fullname,
                             "username": foundUser.username,
                             "roles": all_roles
                         }

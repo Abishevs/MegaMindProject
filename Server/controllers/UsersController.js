@@ -9,7 +9,7 @@ export const getUsers = async(req, res) => {
        
         const users = await Users.findAll({ 
 
-            attributes: ['id','username','email', 'active'],
+            attributes: ['id','username','email', 'active', 'fullname'],
             include: [{
                 model: Roles,
                 attributes: ['role'],

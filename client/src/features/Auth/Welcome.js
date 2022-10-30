@@ -1,17 +1,19 @@
 import { Link } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAnglesRight } from "@fortawesome/free-solid-svg-icons"
 import './Welcome.css'
 
 const Welcome = () => {
     const date = new Date()
     const today = new Intl.DateTimeFormat('sv-eu', { dateStyle: 'long', timeStyle: 'short'}).format(date)
-    const { username, isMod, isAdmin } = useAuth()
+    const { username, status } = useAuth()
     const content = (
         <section className="Welcome">
               
             
-            <h1>Welcome, {username}</h1>
-            <p>{today}</p>
+            <h1>Welcome back, {username}! How is our {status} doing today?</h1>
+            <p><FontAwesomeIcon icon={faAnglesRight}/>{today}</p>
 
             {/*<p><Link to="/dash/contacts">View Contacts</Link></p>*/}
 

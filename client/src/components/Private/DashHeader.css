@@ -7,12 +7,18 @@
 }
 
 .dash-header-container {
-  display: block;
+  display: grid;
+  grid-template-rows: 100px auto 70px;
+  align-items: stretch;
+  height: 100%;
+  justify-items: stretch; 
   
-  
- align-items: normal;
 
 }
+.dash-header-container:last-child{
+ 
+}
+
 
 /* .dash-header__container--small {
     max-width: 800px;
@@ -25,10 +31,11 @@
 }
 
 .dash_header__nav {
+  align-self: start;
   display: flex;
   flex-direction: column;
   align-items: left;
-  gap: 1em;
+  gap: 60vh;
   
   
   
@@ -50,4 +57,39 @@
 
 .icon_dash__nav {
   padding-right: 0.5em;
+}
+
+.dash_profile {
+  
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  padding-bottom: 1em;
+  
+  border-top: 1px solid black;
+}
+
+.dash_profile_desc h2 {
+  font-size: 14px;
+  text-transform: capitalize;
+  margin: 0;
+  
+}
+
+.dash_profile_desc h3{
+  font-size: 0.8rem;
+  text-transform: capitalize;
+  margin: 0;
+}
+
+.dash_profile_desc {
+  
+}
+
+
+.profile_icon{
+  width: 30px;
+  height: 30px;
 }
