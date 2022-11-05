@@ -4,7 +4,7 @@ import {addRoles, addRolesToUser, findRoles, updateUserPwd } from '../controller
 import {verifyJWT } from '../middleware/verifyJWT.js'
 import { getUsers } from '../controllers/UsersController.js'
 
-userRouter.use(verifyJWT)
+//userRouter.use(verifyJWT)
 
 userRouter.route('/add')
     .post(addRoles)

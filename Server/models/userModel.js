@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
- 
+import "./contactModel.js"
 const { DataTypes } = Sequelize;
  
 export const Users = db.define('users',{
@@ -29,7 +29,7 @@ export const Users = db.define('users',{
     active:{
         type: DataTypes.BOOLEAN,
         defaultValue: true
-    }   
+    }
 },{ 
     freezeTableName: true
 });

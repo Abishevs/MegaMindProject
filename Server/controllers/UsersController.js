@@ -1,4 +1,4 @@
-import {Users, Roles, UserRoles} from "../models/UserModel.js";
+import {Users, Roles} from "../models/userModel.js";
 import bcrypt from "bcrypt";
 
 
@@ -32,7 +32,7 @@ export const addRoles = async(req, res) => {
     try {
         await Roles.create(
              {
-                roles: role
+                role: role
             });
             res.json({msg: "Addded secuflly"});
     } catch (err) {
@@ -171,22 +171,3 @@ try {
    res.send(err)
 }      
 }
- /*
-export async function addRoles(userId, RolesObj) {
-    // find the user record
-    const user = await Users.findOne({ where: { id: userId } });
-    // create the project
-    const roles = await Roles.create(RolesObj);
-    // set the user (project manager) foreign key
-    roles.setUser(user);
-  }
-
-export async function addUserRoles(userId, RolesId) {
-    // find the user record
-    const user = await Users.findOne({ where: { id: userId } });
-    // create the project
-    const roles = await UserRoles.create(projectObj);
-    // set the user (project manager) foreign key
-    project.setUser(user);
-  }
-*/

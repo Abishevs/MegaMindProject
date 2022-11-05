@@ -34,5 +34,3 @@ export const Contacts = db.define('contacts',{
     freezeTableName: false
 });
 
-
-

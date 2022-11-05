@@ -1,17 +1,18 @@
-import { Users, Roles } from "../models/UserModel.js";
+import { Users, Roles } from "../models/userModel.js";
 import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken";
 import dotenv from 'dotenv'
 dotenv.config()
 
 export const register = async (req, res) => {
-    const { username, email, password, confPassword } = req.body;
+    const { username, fullname, email, password, confPassword } = req.body;
     if (password !== confPassword) return res.status(400).json({ msg: "Passwords do not match" });
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(password, salt);
     try {
         await Users.create({
             username: username,
+            fullname: fullname,
             email: email,
             password: hashPassword
         });
