@@ -1,4 +1,4 @@
-import {Users, Roles, UserRoles} from "../models/UserModel.js";
+import {Users, Roles} from "../models/userModel.js";
 import bcrypt from "bcrypt";
 
 
@@ -9,7 +9,7 @@ export const getUsers = async(req, res) => {
        
         const users = await Users.findAll({ 
 
-            attributes: ['id','username','email', 'active'],
+            attributes: ['id','username','email', 'active', 'fullname'],
             include: [{
                 model: Roles,
                 attributes: ['role'],
@@ -17,9 +17,10 @@ export const getUsers = async(req, res) => {
                     attributes: []
                 }
             }],
-            //nest: true,
+            nest: true,
             raw: true
         })
+        console.log(users)
         res.json(users);
     } catch (error) {
         console.log(error);
@@ -31,7 +32,7 @@ export const addRoles = async(req, res) => {
     try {
         await Roles.create(
              {
-                roles: role
+                role: role
             });
             res.json({msg: "Addded secuflly"});
     } catch (err) {
@@ -86,23 +87,23 @@ export const addRolesToUser = async(req, res) => {
     }
 }
 export const updateUserPwd = async(req, res) => {
-    const username = req.params.username
+    const id = req.params.id
     const { oldPassword, newPassword, confPassword} = req.body
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(newPassword, salt);
     if( newPassword !== confPassword) return res.status(400).json({msg: "New Password and Confirm Password do not match"});
     try { 
         const user = await Users.findOne({
-            where: {username}
+            where: {id: id}
         })
         
         
-        //if( oldPassword !== user.password) return res.status(400).json({msg: "Enter a right password"});
+        
         const match = await bcrypt.compare(oldPassword, user.password);
         if(!match) return res.status(400).json({msg: "Wrong Password"});
         user.password = hashPassword
         await user.save();
-        return res.json(user);
+        return res.status(200).json({msg: "Updated sucessfully"});
 
         
     } catch (err) {
@@ -170,22 +171,3 @@ try {
    res.send(err)
 }      
 }
- /*
-export async function addRoles(userId, RolesObj) {
-    // find the user record
-    const user = await Users.findOne({ where: { id: userId } });
-    // create the project
-    const roles = await Roles.create(RolesObj);
-    // set the user (project manager) foreign key
-    roles.setUser(user);
-  }
-
-export async function addUserRoles(userId, RolesId) {
-    // find the user record
-    const user = await Users.findOne({ where: { id: userId } });
-    // create the project
-    const roles = await UserRoles.create(projectObj);
-    // set the user (project manager) foreign key
-    project.setUser(user);
-  }
-*/

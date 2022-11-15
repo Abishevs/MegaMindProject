@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
- 
+import "./contactModel.js"
 const { DataTypes } = Sequelize;
  
 export const Users = db.define('users',{
@@ -9,6 +9,10 @@ export const Users = db.define('users',{
         autoIncrement: true,
         primaryKey: true,
 
+    },
+    fullname:{
+        type: DataTypes.STRING,
+        allowNull: false
     },
     username:{
         type: DataTypes.STRING,
@@ -25,13 +29,8 @@ export const Users = db.define('users',{
     active:{
         type: DataTypes.BOOLEAN,
         defaultValue: true
-    },
-
-    refresh_token:{
-        type: DataTypes.TEXT,
-        
     }
-},{
+},{ 
     freezeTableName: true
 });
 
@@ -70,9 +69,9 @@ export const UserRoles = db.define('user_roles',{
     Roles.belongsToMany(Users, { through: UserRoles, foreignKey: 'id_roles'})
 })();
 
-
 (async () => {
     
     await db.sync();
 })();
- 
+
+

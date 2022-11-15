@@ -1,0 +1,52 @@
+/*.table{
+    grid-area: 2/2;
+    background-color: white;
+} */
+.table {
+    
+    font-size: 1rem;
+    width: 80vw;
+    height: max-content;
+    border: 1px solid black;
+    margin: 0.5rem;
+    
+    
+    
+  }
+
+  .users-page {
+    grid-area: 2/2;
+    margin: 0.5em;
+  }
+  
+  .table__button {
+    padding: 0.25em;
+    font-size: 1.5rem;
+    color: var(--TABLE-COLOR);
+  }
+  
+  .table__th{
+    border: 1px solid black
+  }
+  
+  .table__th,
+  .table__cell {
+    background-color: var(--TABLE-BGCOLOR);
+    text-align: left;
+    border: 1px solid var(--TABLE-COLOR);
+    padding: 0.5em;
+   
+    
+    
+    
+    
+  }
+  
+  .table__cell:last-child {
+    display: grid;
+    place-content: center;
+  }
+  
+  .table__cell--inactive {
+    background-color: var(--INACTIVE);
+  }

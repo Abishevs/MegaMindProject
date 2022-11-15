@@ -1,17 +1,18 @@
-import { Users, Roles } from "../models/UserModel.js";
+import { Users, Roles } from "../models/userModel.js";
 import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken";
 import dotenv from 'dotenv'
 dotenv.config()
 
 export const register = async (req, res) => {
-    const { username, email, password, confPassword } = req.body;
+    const { username, fullname, email, password, confPassword } = req.body;
     if (password !== confPassword) return res.status(400).json({ msg: "Passwords do not match" });
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(password, salt);
     try {
         await Users.create({
             username: username,
+            fullname: fullname,
             email: email,
             password: hashPassword
         });
@@ -32,7 +33,7 @@ export const login = async (req, res) => {
         //console.log(user)
         if (!username || !password) return res.status(400).json({ msg: 'All field are required' })
         if (!user || !user[0].active) {
-            return res.status(400).json({ msg: 'Unauthorized' })
+            return res.status(401).json({ msg: 'Unauthorized' })
         }
         const match = await bcrypt.compare(req.body.password, user[0].password);
         if (!match) return res.status(401).json({ msg: "The password you’ve entered is incorrect" });
@@ -61,22 +62,24 @@ export const login = async (req, res) => {
         const all_roles = roles.roles.role
         const name = user[0].username;
         const email = user[0].email;
+        const fullname = user[0].fullname;
         console.log(all_roles)
 
 
         const accessToken = jwt.sign(
             {
                 "UserInfo": {
+                    "fullname": fullname,
                     "username": name,
                     "roles": all_roles
                 }
             }, process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '15s' }
+            { expiresIn: '15m' }
         );
 
         const refreshToken = jwt.sign(
             { "username": name }, process.env.REFRESH_TOKEN_SECRET, {
-            expiresIn: '2m'
+            expiresIn: '7d'
         });
         res.cookie('jwt', refreshToken, {
             httpOnly: true, //accesible only by web
@@ -160,12 +163,13 @@ export const refresh = async (req, res) => {
                 const accessToken = jwt.sign(
                     {
                         "UserInfo": {
+                            "fullname": foundUser.fullname,
                             "username": foundUser.username,
                             "roles": all_roles
                         }
                     },
                     process.env.ACCESS_TOKEN_SECRET,
-                    { expiresIn: '15s' }
+                    { expiresIn: '15m' }
                 )
                 res.json({ accessToken })
             } catch (err) {

@@ -1,9 +1,34 @@
+/* ===== Table of contents ======
+  
+  1. Global settings
+  2. Errors
+  3. Global buttons
+  4. Login page
+  5. Public page 
+    5.1 Welcome page
+  6. Private page
+    6.1 Dashboard Layout
+      6.1.1 Dashheader
+      6.1.2 Dashsidebar
+      6.1.3 Dashfooter
+    
+    6.2 Users
+  7.
+
+  ===== Table of contents =======
+
+*/
+
+/* 1. Global settings */
+
 :root {
-  --main-color: #02353c;
+  --main-color: #02353c; 
   --accent-main: #a7Fd02;
   --opposite-main: #3C0902;
   --contrast-accent: rgb(255, 255, 255);
-  --contrast-black: black; 
+  --contrast-black: black;
+  --ERROR: firebrick;
+  --INACTIVE: lightgray;
 
 }
 
@@ -11,164 +36,262 @@ html {
   height: 100%;
 }
 
+#root {
+  /* React root div */
+  min-height: 100vh;
+ 
+  
+}
 
+a {
+  text-decoration: none;
+}
 
 body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background: linear-gradient(#141e30, #243b55);
+  background: white;
+}
+
+/* 2. errors */
+
+.errmsg {
+  display: inline-block;
+  background-color: none;
+  color: var(--ERROR);
+  padding: 0.25em;
+  margin-bottom: 0.5em;
+}
+
+.errmsg a:any-link {
+  color: var(--ERROR);
+  text-decoration: underline;
+}
+
+
+/* 3. Global buttons */
+.icon-button {
+  width: 48px;
+  height: 48px;
+  font-size: 2.5rem;
+  background-color: transparent;
+  border: none;
+  color: var(--accent-main);
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+}
+
+.icon-button:hover,
+.icon-button:focus-visible {
+  transform: scale(1.2);
+}
+
+.icon-button[disabled] {
+  visibility: hidden;
+}
+
+
+/* 4. Login page */
+
+.container {
+  background-image: url(../public/bmw.jpg);
+  width: 100vw;
+  height: 100vh;
+  
 }
 
 .login-box {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 400px;
-  padding: 40px;
-  transform: translate(-50%, -50%);
-  background: var(--main-color);
-  box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
-  border-radius: 10px;
-}
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    padding: 40px;
+    transform: translate(-50%, -50%);
+    background: var(--main-color);
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
+    border-radius: 10px;
+  }
+  
+  .login-box h1 {
+    margin: 0 0 60px;
+    padding: 0;
+    color: #fff;
+    text-align: center;
+  }
+  
+  .login-box .user-box {
+    position: relative;
+  }
+  
+  .login-box .user-box input {
+    width: 100%;
+    padding: 5px;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+  }
+  
+  .login-box .user-box label {
+    position: absolute;
+    top: -20px;
+    font-size: 16px;
+    color: #fff;
+    pointer-events: none;
+    transition: .5s;
+  }
+  
+  
+  .login-box .user-box input:focus~label,
+  .login-box .user-box input:valid~label {
+    top: -20px;
+    left: 0;
+    color: #03e9f4;
+    font-size: 12px;
+  }
+  
+  .login-box form a {
+    background-color: #fff;
+    padding: 10px 20px;
+    color: black;
+    font-size: 16px;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: .5s;
+    margin-top: 20px;
+    letter-spacing: 4px
+  }
+  
+  .login-box form button {
+    cursor: pointer;
+    border: none;
+    background-color: azure;
+    padding: 10px 20px;
+    color: black;
+    font-size: 16px;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: .5s;
+    letter-spacing: 4px;
+  }
+  
+  .login-box button:hover {
+    background: #03e9f4;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #03e9f4,
+      0 0 25px #03e9f4,
+      0 0 50px #03e9f4,
+  
+  }
+  
+  form .button-sb {
+    width: 100%;
+    display: flex;
+    display: column;
+    justify-content: space-between;
+  
+  }
+  
+  div.button-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .btn-msg {
+  
+    color: #fff;
+  }
+  
+  
+  .area {
+    float: left;
+    background: #e2e2e2;
+    width: 100%;
+    height: 100%;
+  }
 
-.login-box h1 {
-  margin: 0 0 60px;
-  padding: 0;
-  color: #fff;
-  text-align: center;
-}
+  .form__persist{
+    padding-top: 1rem;
+  }
+  
+/* 5. Public page */
 
-.login-box .user-box {
-  position: relative;
-}
+ /* 5.1 Welcome  */
 
-.login-box .user-box input {
-  width: 100%;
-  padding: 5px;
-  font-size: 16px;
-  color: #fff;
-  margin-bottom: 30px;
-  border: none;
-  border-bottom: 1px solid #fff;
-  outline: none;
-  background: transparent;
-}
-
-.login-box .user-box label {
-  position: absolute;
-  top: -20px;
-  font-size: 16px;
-  color: #fff;
-  pointer-events: none;
-  transition: .5s;
-}
-
-
-.login-box .user-box input:focus~label,
-.login-box .user-box input:valid~label {
-  top: -20px;
-  left: 0;
-  color: #03e9f4;
-  font-size: 12px;
-}
-
-.login-box form a {
+.Welcome {
   background-color: #fff;
-  padding: 10px 20px;
-  color: #03e9f4;
-  font-size: 16px;
-  text-decoration: none;
-  text-transform: uppercase;
-  overflow: hidden;
-  transition: .5s;
-  margin-top: 20px;
-  letter-spacing: 4px
-}
-
-.login-box form button {
-  cursor: pointer;
-  border: none;
-  background-color: azure;
-  padding: 10px 20px;
-  color: #03e9f4;
-  font-size: 16px;
-  text-decoration: none;
-  text-transform: uppercase;
-  overflow: hidden;
-  transition: .5s;
-  letter-spacing: 4px;
-}
-
-.login-box button:hover {
-  background: #03e9f4;
-  color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 0 5px #03e9f4,
-    0 0 25px #03e9f4,
-    0 0 50px #03e9f4,
+  grid-area: 2/2/2/2;
+  text-transform: capitalize;
+  margin-bottom: 1em;
+  padding-left: 1em;
 
 }
 
-form .button-sb {
-  width: 100%;
-  display: flex;
-  display: column;
-  justify-content: space-between;
+/* 6. Private page */
 
+/* 6.1 Dashboard layout */
+.dash-container {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: 50px auto 70px;
+  height: 100vh;
+  
 }
 
-div.button-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn-msg {
-
-  color: #fff;
-}
-
-
-.area {
-  float: left;
-  background: #e2e2e2;
-  width: 100%;
-  height: 100%;
-}
-
-
+/*  6.1.1 Dashheader */
 
 .dash-header {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  padding: 0 0.5em;
+  
+  padding: 0 1rem;
+  background-color: var(--main-color);
+  grid-row: 1 / 4;
+  
 }
 
-.dash-header-container  {
-  display: flex;
-  flex-direction: row;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: baseline;
+.dash-header-container {
+  display: grid;
+  grid-template-rows: 100px auto 70px;
+  align-items: stretch;
+  height: 100%;
+  justify-items: stretch; 
+  
 
 }
+/* .dash-header-container:last-child{
+ 
+} */
 
-.dash-header__container--small {
-  max-width: 800px;
-}
+
+/* .dash-header__container--small {
+    max-width: 800px;
+  } */
 
 .dash-header__title {
   
+  text-align: center;
   color: var(--contrast-accent);
 }
 
-.dash-header__nav {
+.dash_header__nav {
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  gap: 60vh;
   
-  gap: 2em;
+  
+  
 }
 
 .dash-header-nav-buttons {
@@ -177,10 +300,131 @@ div.button-center {
   background-color: transparent;
   border: none;
   color: var(--contrast-accent);
+
+}
+
+.dash-header-nav-buttons:hover{
+  transform: scale(1.05);
   
 }
 
-.dash-container {
-  padding: 0.75em 0.5em 0.5em;
-  flex-grow: 1;
+.icon_dash__nav {
+  padding-right: 0.5em;
+}
+
+.dash_profile {
+  
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  padding-bottom: 1em;
+  
+  border-top: 1px solid black;
+}
+
+.dash_profile_desc h2 {
+  font-size: 14px;
+  text-transform: capitalize;
+  margin: 0;
+  
+}
+
+.dash_profile_desc h3{
+  font-size: 0.8rem;
+  text-transform: capitalize;
+  margin: 0;
+}
+
+/* .dash_profile_desc {
+  
+} */
+
+
+.profile_icon{
+  width: 30px;
+  height: 30px;
+}
+
+/*  6.1.2 Dashsidebar */
+
+.dash_nav{
+  grid-area: 1/2;
+  background-color: transparent;
+}
+
+/* 6.1.3 Dashfooter */
+.dash-footer {
+  font-size: 1rem;
+  grid-area: 3/2/4/4;
+  background-color: var(--main-color);
+  padding: 0.5em;
+  border-top: 1px solid var(--BORDER-COLOR);
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  gap: 1em;
+  text-transform: capitalize;
+}
+
+.dash-footer__button {
+  font-size: 1rem;
+  width: auto;
+  height: auto;
+}
+
+/* 6.2 Users */
+
+/*.table{
+    grid-area: 2/2;
+    background-color: white;
+} */
+.table {
+    
+  font-size: 1rem;
+  width: 80vw;
+  height: max-content;
+  border: 1px solid black;
+  margin: 0.5rem;
+  
+  
+  
+}
+
+.users-page {
+  grid-area: 2/2;
+  margin: 0.5em;
+}
+
+.table__button {
+  padding: 0.25em;
+  font-size: 1.5rem;
+  color: var(--TABLE-COLOR);
+}
+
+.table__th{
+  border: 1px solid black
+}
+
+.table__th,
+.table__cell {
+  background-color: var(--TABLE-BGCOLOR);
+  text-align: left;
+  border: 1px solid var(--TABLE-COLOR);
+  padding: 0.5em;
+ 
+  
+  
+  
+  
+}
+
+.table__cell:last-child {
+  display: grid;
+  place-content: center;
+}
+
+.table__cell--inactive {
+  background-color: var(--INACTIVE);
 }
